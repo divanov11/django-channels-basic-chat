@@ -1,5 +1,7 @@
 # django-channels-basic-chat
 
+Tutorial link: https://github.com/divanov11/django-channels-basic-chat
+
 
 ## Cloning and starting project
 1. - git clone https://github.com/divanov11/django-channels-basic-chat
