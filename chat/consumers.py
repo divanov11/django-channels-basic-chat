@@ -20,13 +20,11 @@ class ChatConsumer(WebsocketConsumer):
         # print(websocketKey, " is the key of the websocket")
         # print(user_id, "This is the user ID")
 
-        # -----------removed bcz channel_layer is removed from settings.py-----------
-        # self.room_group_name = 'test'
-        # async_to_sync(self.channel_layer.group_add)(
-        #     self.room_group_name,
-        #     self.channel_name
-        # )
-
+        self.room_group_name = 'test'
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name,
+            self.channel_name
+        )
         self.accept()
 
         # socket id here
@@ -44,6 +42,7 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
@@ -51,6 +50,8 @@ class ChatConsumer(WebsocketConsumer):
                 'message':message
             }
         )
+
+    
 
         # code for getting the data from database:
         #     pass
@@ -65,9 +66,9 @@ class ChatConsumer(WebsocketConsumer):
 
         # we have to initialize websocket on url through which data will fatch
 
-    # def chat_message(self, event):
-    #     message = event['message']
-    #     self.send(text_data=json.dumps({
-    #         'type':'chat',
-    #         'message':message
-    #     }))
+    def chat_message(self, event):
+        message = event['message']
+        self.send(text_data=json.dumps({
+            'type':'chat',
+            'message':message
+        }))
