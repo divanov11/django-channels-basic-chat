@@ -1,5 +1,5 @@
 from django.contrib import admin
-from chat.models import Details
+from chat.models import *
 # Register your models here.
 
-admin.site.register(Details)
+admin.site.register(userDetail)
