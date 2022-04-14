@@ -15,14 +15,12 @@ class ChatConsumer(WebsocketConsumer):
         else:
             websocketKey = a['headers'][3][1]
 
-        # windowServiceKey = 
-
         self.username = self.saveData(user_id, websocketKey)
 
         # print(websocketKey, " is the key of the websocket")
         # print(user_id, "This is the user ID")
 
-        # removed bcz channel_layer is removed from settings.py
+        # -----------removed bcz channel_layer is removed from settings.py-----------
         # self.room_group_name = 'test'
         # async_to_sync(self.channel_layer.group_add)(
         #     self.room_group_name,
@@ -42,7 +40,7 @@ class ChatConsumer(WebsocketConsumer):
         else: 
             Details.objects.filter(userid=user_id[:-1]).update(windowServiceKey = websocketKey)    
             print("socketKey updated Successfully")            
-
+            
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
@@ -53,6 +51,12 @@ class ChatConsumer(WebsocketConsumer):
                 'message':message
             }
         )
+
+        # code for getting the data from database:
+        #     pass
+
+
+
         # we'll get data from this method
         # socket id from windows service and store it on any table 
         # uuid match with socket id
