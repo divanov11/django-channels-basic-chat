@@ -25,6 +25,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             print(self.scope['headers'][3][1])
         d=await self.username
         print(d)
+       
         await self.accept()
         await self.send('connected to the server')
         # self.room_group_name = 'test'
@@ -56,6 +57,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message={}
         message['name']=data.name,
         message['id']=data.userid
+
+        original_data = await text_data
+        self.save_database(original_data)
+
         # self.save_data(message)
     # Send message to room group
         await self.channel_layer.group_send(
@@ -75,3 +80,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_data(self,id):
         obj=userDetail.objects.get(id=id)
         return obj
+
+    @database_sync_to_async
+    def save_database(self,original_data):
+        original_data = json.loads(original_data)
+        print(original_data, "This is the original_data")
+
+
+        
