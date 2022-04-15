@@ -12,5 +12,5 @@ def invoiceData(request):
         hsncode     = request.POST['hsn'] 
         buyername   = request.POST['buyer']
         
-        print(f"{name} : {gstno} : {hsncode} : {buyername}")
+        # print(f"{name} : {gstno} : {hsncode} : {buyername}")
     return render(request, 'chat/invoicedata.html')
