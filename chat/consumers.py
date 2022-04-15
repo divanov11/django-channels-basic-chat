@@ -50,41 +50,41 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print(text_data)
         text_data_json = json.loads(text_data)
         # message = text_data_json['message']
-        print(text_data_json)
-        # data=self.get_data(1)
-        # data= await data
-        # message={}
-        # message['name']=data.name,
-        # message['id']=data.userid
+        print(text_data_json, "This is running from receive function")
 
-        
-    #     original_data = await text_data
-    #     self.save_database(original_data)
+        data=self.get_data(1)
+        data= await data
+        message={}
+        message['name']=data.name,
+        message['id']=data.userid
 
-    #     # self.save_data(message)
-    # # Send message to room group
-    #     await self.channel_layer.group_send(
-    #     self.room_group_name,
-    #     {   'type':'send_message',
-    #         'message': message,
-    #     } )
+        original_data = await text_data
+        self.save_database(original_data)
 
-    # async def send_message(self, event):
-    #     message = event['message']
-    #     print(message)
-    #     await self.send(text_data=json.dumps({
-    #         'message':message
-    #     }))
+        # self.save_data(message)
+    # Send message to room group
+        await self.channel_layer.group_send(
+        self.room_group_name,
+        {   'type':'send_message',
+            'message': message,
+        } )
 
-    # @database_sync_to_async
-    # def get_data(self,id):
-    #     obj=userDetail.objects.get(id=id)
-    #     return obj
+    async def send_message(self, event):
+        message = event['message']
+        print(message)
+        await self.send(text_data=json.dumps({
+            'message':message
+        }))
 
-    # @database_sync_to_async
-    # def save_database(self,original_data):
-    #     original_data = json.loads(original_data)
-    #     print(original_data, "This is the original_data")
+    @database_sync_to_async
+    def get_data(self,id):
+        obj=userDetail.objects.get(id=id)
+        return obj
+
+    @database_sync_to_async
+    def save_database(self,original_data):
+        original_data = json.loads(original_data)
+        print(original_data, "This is the original_data")
 
 
         

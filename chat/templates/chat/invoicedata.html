@@ -13,7 +13,7 @@
 <body>
     <div class="container mt-5">
         <!-- --------------------------------------------------------------------- -->
-        <form method="POST" class="form-vertical" onsubmit="test()">
+        <form method="POST" class="form-vertical" onsubmit="test()" name="myform">
             {% csrf_token %}
             <!-- --------------------------------------------------------------------- -->
             <div class="mb-3 row">
@@ -46,7 +46,14 @@
     <!-- --------------------------------------------------------------------- -->
     <script>
         function test() {
-            alert(`The function 'test' is executed`);
+            const name = document.myform.name.value;
+            const gst = document.myform.gst.value;
+            const hsn = document.myform.hsn.value;
+            const buyer = document.myform.buyer.value;
+            // console.log(name);
+            // console.log(gst);
+            // console.log(hsn);
+            // console.log(buyer);
         }
     </script>
     <!-- --------------------------------------------------------------------- -->
