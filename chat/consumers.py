@@ -10,6 +10,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print(self.scope)
         user_id=self.scope['url_route']['kwargs']['user_id']
         username=self.scope['url_route']['kwargs']['username']
+
+        self.user = username
         
         self.room_group_name = f'{username}'
         await self.channel_layer.group_add(
@@ -46,45 +48,97 @@ class ChatConsumer(AsyncWebsocketConsumer):
         obj.save()
         return None
 
+# ----------------------------------Old Data---------------------------------------------------------
+    # async def receive(self, text_data):
+    #     print(text_data)
+    #     text_data_json = json.loads(text_data)
+    #     # message = text_data_json['message']   
+    #     print(text_data_json, "This is running from receive function")
+
+    #     data=self.get_data(1)
+    #     data= await data
+    #     message={}
+    #     message['name']=data.name,
+    #     message['id']=data.userid
+
+    #     original_data = await text_data
+    #     self.save_database(original_data)
+
+    #     # self.save_data(message)
+    # # Send message to room group
+    #     await self.channel_layer.group_send(
+    #     self.room_group_name,
+    #     {   'type':'send_message',
+    #         'message': message,
+    #     } )
+
+    # async def send_message(self, event):
+    #     message = event['message']
+    #     print(message)
+    #     await self.send(text_data=json.dumps({
+    #         'message':message
+    #     }))
+
+    # @database_sync_to_async
+    # def get_data(self,id):
+    #     obj=userDetail.objects.get(id=id)
+    #     return obj
+
+    # @database_sync_to_async
+    # def save_database(self,original_data):
+    #     original_data = json.loads(original_data)
+    #     print(original_data, "This is the original_data")
+# -------------------------------------------------------------------------------------------
     async def receive(self, text_data):
-        print(text_data)
-        text_data_json = json.loads(text_data)
-        # message = text_data_json['message']
-        print(text_data_json, "This is running from receive function")
-
-        data=self.get_data(1)
-        data= await data
-        message={}
-        message['name']=data.name,
-        message['id']=data.userid
-
-        original_data = await text_data
-        self.save_database(original_data)
-
-        # self.save_data(message)
-    # Send message to room group
-        await self.channel_layer.group_send(
-        self.room_group_name,
-        {   'type':'send_message',
-            'message': message,
-        } )
+            # print(text_data)
+            text_data_json = json.loads(text_data)
+            # message = text_data_json['message']
+            print(text_data_json)
+            original_data=text_data
+            save=self.databse_save(original_data)
+            save=await save
+            data=self.get_data()
+            data= await data
+            message={}
+            message['gst']=data.hsncode
+            message['hsn']=data.gstno
+            message['buyer']=data.buyername
+            # self.save_data(message)
+        #Send message to room group
+            await self.channel_layer.group_send(
+            self.room_group_name,
+            {   'type':'send_message',
+                'message': message,
+            })
 
     async def send_message(self, event):
-        message = event['message']
-        print(message)
+        print(event['message'])
+        # gst = event['gst']
+        # hsn = event['hsn']
+        # buyer = event['buyer']
+        # print(message)
         await self.send(text_data=json.dumps({
-            'message':message
+            'gst':event['message']['gst'],
+            'hsn':event['message']['hsn'],
+            'buyer':event['message']['buyer']
+            # 'gst':gst,
+            # 'hsn':hsn,
+            # 'buyer':buyer
         }))
 
     @database_sync_to_async
-    def get_data(self,id):
-        obj=userDetail.objects.get(id=id)
+    def get_data(self):
+        obj=pdf_details.objects.last()
         return obj
-
-    @database_sync_to_async
-    def save_database(self,original_data):
-        original_data = json.loads(original_data)
-        print(original_data, "This is the original_data")
-
-
         
+    @database_sync_to_async
+    def databse_save(self,original_data):
+        original_data=json.loads(original_data)
+        print(original_data['gst'])
+        obj=pdf_details()
+        obj.hsncode=original_data['gst']
+        obj.gstno=original_data['hsn']
+        obj.buyername=original_data['buyer']
+        obj.name=self.user
+        obj.save()
+        return None

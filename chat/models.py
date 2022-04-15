@@ -10,7 +10,7 @@ class userDetail(models.Model):
     key2=models.CharField(blank=True,max_length=150)
     
 class pdf_details(models.Model):
-    name=models.ForeignKey(userDetail,on_delete=models.CASCADE)
+    name=models.CharField(default='',max_length=150)
     hsncode=models.CharField(default='',max_length=150)
     gstno=models.CharField(default='',max_length=150)
     buyername=models.CharField(default='',max_length=150)
