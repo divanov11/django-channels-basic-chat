@@ -11,27 +11,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
         uuid=self.scope['url_route']['kwargs']['user_id']
         print(uuid)
 
+        self.room_group_name = f'{uuid}'
+
         await self.channel_layer.group_add(
         self.room_group_name,
         self.channel_name)
 
         await self.accept()
         await self.send('connected to the server')
- 
+
     async def receive(self, text_data):        
             print(text_data, "----------------")
 
             text_data_json = json.loads(text_data)
             print(text_data_json, "****************")
 
-            main = text_data_json['res']['config']['data']
-            main1 = json.loads(main)
+            # main = text_data_json['res']['config']['data']
+            # main1 = json.loads(main)
             message={}
 
-            message['ledeger_name']=main1['ledeger_name']
-            message['ledeger_state']=main1['ledeger_state']
-            message['ledeger_website']=main1['ledeger_website']
-
+            message['gst']   = text_data_json['gst']
+            message['hsn']   = text_data_json['hsn']
+            message['buyer'] = text_data_json['buyer']
+    
             await self.channel_layer.group_send(
             self.room_group_name,
             {   'type':'send_message',
@@ -42,8 +44,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print(event['message'])
 
         await self.send(text_data=json.dumps({
-            'ledeger_name':event['message']['ledeger_name'],
-            'ledeger_state':event['message']['ledeger_state'],
-            'ledeger_website':event['message']['ledeger_website']
-            
+            'gst':event['message']['gst'],
+            'hsn':event['message']['hsn'],
+            'buyer':event['message']['buyer']
         }))
