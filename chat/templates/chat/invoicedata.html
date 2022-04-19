@@ -45,11 +45,10 @@
     </div>
     <!-- --------------------------------------------------------------------- -->
     <script>
-
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
-            + '/ws/socket-server/' + 'ank@hotmail.com' + 'c' + '/' + 'ank' + '/'
+            + '/ws/socket-server/' + 'ank@hotmail.com/'
         );
 
         chatSocket.onopen = function (e) {
@@ -60,7 +59,6 @@
             const gst = document.myform.gst.value;
             const hsn = document.myform.hsn.value;
             const buyer = document.myform.buyer.value;
-
 
             chatSocket.send(JSON.stringify({
                 'name': name,

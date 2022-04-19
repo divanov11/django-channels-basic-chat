@@ -11,6 +11,6 @@ def invoiceData(request):
         gstno       = request.POST['gst'] 
         hsncode     = request.POST['hsn'] 
         buyername   = request.POST['buyer']
-        
-        # print(f"{name} : {gstno} : {hsncode} : {buyername}")
+        pdf_details.objects.create(name=name, gstno=gstno,hsncode=hsncode,buyername=buyername)
+        print(f"{name} : {gstno} : {hsncode} : {buyername}")
     return render(request, 'chat/invoicedata.html')
