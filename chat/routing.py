@@ -3,6 +3,11 @@ from django.urls import path
 from . import consumers
 
 websocket_urlpatterns = [
-    # re_path(r'ws/socket-server/', consumers.ChatConsumer.as_asgi()),
-    path('ws/socket-server/<str:user_id>/', consumers.ChatConsumer.as_asgi())
+
+    path('ws/ledger-socket-server/<str:user_id>/', consumers.LedgerConsumer.as_asgi()),
+    
+    # ------------------------New Url------------------------------
+
+    path('ws/voucher-socket-server/<str:user_id>/', consumers.BankVoucherConsumer.as_asgi()),
+    path('ws/invoice-socket-server/<str:user_id>/', consumers.InvoiceVoucherConsumer.as_asgi()),
 ]

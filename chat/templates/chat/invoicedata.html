@@ -16,30 +16,24 @@
         <form method="POST" class="form-vertical" onsubmit="test()" name="myform">
             {% csrf_token %}
             <!-- --------------------------------------------------------------------- -->
-            <div class="mb-3 row">
-                <div class="col-sm-10">
-                    <input type="text" class="form-control border border-info" name="name" placeholder="Name">
+            <div class="row">
+                <div class="col mb-3">
+                    <input type="text" class="form-control border border-primary" name="name" placeholder="Name">
+                </div>
+                <div class="col mb-3">
+                    <input type="text" class="form-control border border-secondary" name="gst" placeholder="GST Number">
                 </div>
             </div>
-            <div class="mb-3 row">
-                <div class="col-sm-10">
-                    <input type="text" class="form-control border border-info" name="gst" placeholder="GST Number">
+            <div class="row">
+                <div class="col mb-3">
+                    <input type="text" class="form-control border border-success" name="hsn" placeholder="HSN Number">
+                </div>
+                <div class="col mb-3">
+                    <input type="text" class="form-control border border-warning" name="buyer" placeholder="Buyer Name">
                 </div>
             </div>
-            <div class="mb-3 row">
-                <div class="col-sm-10">
-                    <input type="text" class="form-control border border-info" name="hsn" placeholder="HSN Number">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <div class="col-sm-10">
-                    <input type="text" class="form-control border border-info" name="buyer" placeholder="Buyer Name">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <div class="col-sm-10">
-                    <input type="submit" class="btn btn-danger mb-3 border border-warning" value="Send Data">
-                </div>
+            <div class="row">
+                <input type="submit" class="btn btn-danger mb-3 value=" Send Data">
             </div>
         </form>
     </div>
